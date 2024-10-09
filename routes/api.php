@@ -14,5 +14,7 @@ Route::post("/user/login", [UserController::class, "login"]);
 Route::middleware([AuthMiddleware::class])->group(function(){
     Route::get("/user/get", [UserController::class, "get"]);
     Route::post("/movie/store", [MovieController::class, "simpan"]);
+    Route::post("/movie/edit/{id}", [MovieController::class, "simpan"]);
     Route::get("/movie", [MovieController::class, "all"]);
+
 });
