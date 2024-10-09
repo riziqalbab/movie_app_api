@@ -12,16 +12,23 @@ use Illuminate\Validation\Rules\File;
 
 class MovieController extends Controller
 {
-    public function all()
-    {
-        $movie = Movie::all();
-        return response(json_encode($movie));
+    public function all(Request $request)
+{
+    $token = $request->cookie("token");
+
+    
+    $user = User::where("token", $token)->first();
+    if (!$user) {
+        return response()->json(['message' => 'User not found'], 404);
     }
 
+    $perPage = $request->query('per_page', 10);
+    $movies = $user->movies()->paginate($perPage)->withPath('/');
+
+    return response()->json($movies);
+}
     public function simpan(Request $request)
     {
-
-
         $token = $request->cookie("token");
 
         $user = User::where("token", $token)->first();
@@ -31,18 +38,18 @@ class MovieController extends Controller
         $movie = $request->validate([
             "title" => ["required"],
             "year" => ["required"],
-            "img"=>File::image()
-            ->min('1kb')
-            ->max('10mb')
+            "img" => File::image()
+                ->min('1kb')
+                ->max('10mb')
         ]);
 
 
 
         Log::info($request);
-    
+
 
         // Storage::disk("public")->put($movie["img"], "img");
-        $path = $request->file('img')->store('uploads', 'public'); 
+        $path = $request->file('img')->store('uploads', 'public');
         $url = Storage::url($path);
 
         $movie = new Movie($movie);
