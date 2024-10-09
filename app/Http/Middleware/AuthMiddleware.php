@@ -29,7 +29,6 @@ class AuthMiddleware
 
         $user = User::where("token", $token)->first();
 
-        Log::info($user);
         if (!$user) {
             $isAuthenticated = false;
         }

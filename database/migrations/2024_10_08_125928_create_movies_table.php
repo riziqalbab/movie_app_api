@@ -14,8 +14,8 @@ return new class extends Migration {
             $table->id("id_movie");
             $table->unsignedBigInteger("user_id");
             $table->string("title")->nullable(false);
-            $table->string("published")->nullable(false);
-            $table->string("image")->nullable(false);
+            $table->string("year")->nullable(false);
+            $table->string("img")->nullable(false);
             $table->timestamps();
 
             $table->foreign("user_id")->references("id")->on("users");

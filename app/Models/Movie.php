@@ -13,6 +13,9 @@ class Movie extends Model
     protected $table = "movies";
     protected $primaryKey = "id_movies";
     
+    protected $fillable = [
+        "user_id", "title", "year", "image"
+    ];
 
     public function user():BelongsTo{
         return $this->belongsTo(User::class, "user_id", "id");
