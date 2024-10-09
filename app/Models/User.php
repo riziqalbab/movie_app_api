@@ -15,7 +15,7 @@ class User extends Model
 
     public $incrementing = true;
 
-    protected $fillable = ["email", "password"];
+    protected $fillable = ["email", "password", "token"];
 
 
     public function movies(): HasMany
