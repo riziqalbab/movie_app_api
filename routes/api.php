@@ -9,9 +9,10 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::post("/user", [UserController::class, "register"]);
-Route::post("/user/login", [UserController::class, "login"]);
 
 Route::middleware([AuthMiddleware::class])->group(function(){
+    Route::post("/user/login", [UserController::class, "login"]);
+    Route::post("/user/logout", [UserController::class, "logout"]);
     Route::get("/user/get", [UserController::class, "get"]);
     Route::post("/movie/store", [MovieController::class, "simpan"]);
     Route::post("/movie/edit/{id}", [MovieController::class, "simpan"]);

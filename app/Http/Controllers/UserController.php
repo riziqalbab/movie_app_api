@@ -54,7 +54,23 @@ class UserController extends Controller
 
         $userResource = new UserResource($user);
 
-        return response(["data"=>$userResource])->withCookie("token", $token);
+        return response(["data" => $userResource])->withCookie("token", $token);
+    }
+    public function logout(Request $request)
+    {
+        $token = $request->cookie('token');
+        $user = User::where('token', $token)->first();
+
+        if (!$user) {
+            throw new HttpResponseException(response([
+                "errors" => "User not found"
+            ], 404));
+        }
+
+        $user->token = null;
+        $user->save();
+
+        return response()->json(['message' => 'Successfully logged out'])->withCookie(cookie('token', null, -1));
     }
 
     public function get(Request $request)
